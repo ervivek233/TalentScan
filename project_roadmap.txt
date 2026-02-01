@@ -66,3 +66,14 @@ STEP 5 — Resume ↔ Job Description Matching (Semantic Similarity)
 Objective:
 Implement semantic matching between a resume and a job description using Sentence-BERT.
 This avoids keyword-only bias and handles synonyms, phrasing, and context.
+
+STEP 6 — Resume Scoring Engine (Final Scoring Logic)
+
+Objective:
+Create a deterministic resume scoring engine that combines:
+
+Skill match score
+
+Semantic similarity score (Sentence-BERT)
+
+Simple heuristics
