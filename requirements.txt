@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+pandas
+numpy
+scikit-learn
+spacy
+nltk
+pdfplumber
+python-docx
+sentence-transformers
+matplotlib
+seaborn
+joblib
