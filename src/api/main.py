@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from sklearn.metrics.pairwise import cosine_similarity
 from src.api.schemas import ResumeText, ResumeJDInput
+from fastapi import UploadFile, File, HTTPException
+from src.api.resume_parser import extract_text_from_pdf, extract_text_from_docx
 from src.api.model_loader import (
     tfidf_vectorizer,
     resume_classifier,
@@ -35,3 +37,28 @@ def score_resume(payload: ResumeJDInput):
 
     final_score = round(semantic * 100, 2)  # placeholder, full logic later
     return {"resume_score": final_score}
+
+@app.post("/upload-resume")
+async def upload_resume(file: UploadFile = File(...)):
+    filename = file.filename.lower()
+
+    if filename.endswith(".pdf"):
+        text = extract_text_from_pdf(file.file)
+    elif filename.endswith(".docx"):
+        text = extract_text_from_docx(file.file)
+    else:
+        raise HTTPException(
+            status_code=400,
+            detail="Only PDF and DOCX files are supported"
+        )
+
+    if not text.strip():
+        raise HTTPException(
+            status_code=400,
+            detail="No readable text found in resume"
+        )
+
+    return {
+        "filename": file.filename,
+        "extracted_text_preview": text[:500]
+    }

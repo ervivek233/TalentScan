@@ -73,7 +73,28 @@ Objective:
 Create a deterministic resume scoring engine that combines:
 
 Skill match score
-
 Semantic similarity score (Sentence-BERT)
-
 Simple heuristics
+
+STEP 7 — FastAPI Backend (Inference APIs)
+
+Objective:
+Expose your trained models and scoring logic via FastAPI so the system can:
+
+Accept resume text (later PDF)
+Predict resume category
+Match resume with a JD
+Return final resume score
+
+STEP 8 — PDF / DOCX Resume Upload & Text Extraction API
+
+Objective:
+Enable users to upload PDF or DOCX resumes, extract text reliably, and reuse the same NLP + ML pipeline you already built.
+New API:
+POST /upload-resume
+
+Capabilities:
+Accept PDF or DOCX
+Extract raw text
+Clean text using existing logic
+Return extracted text (for now)

@@ -14,3 +14,4 @@ joblib
 torch
 seaborn
 matplotlib
+python-multipart
