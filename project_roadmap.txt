@@ -60,3 +60,9 @@ STEP 4 — Resume Classification Model (Training + Evaluation)
 Objective:
 Train a resume role classifier using TF-IDF features and evaluate it with proper metrics.
 This model will be saved as an artifact and later used by the API and CI/CD pipeline.
+
+STEP 5 — Resume ↔ Job Description Matching (Semantic Similarity)
+
+Objective:
+Implement semantic matching between a resume and a job description using Sentence-BERT.
+This avoids keyword-only bias and handles synonyms, phrasing, and context.

@@ -35,7 +35,3 @@ print(classification_report(y_test, y_pred))
 
 print("\nConfusion Matrix:\n")
 print(confusion_matrix(y_test, y_pred))
-
-# Save model
-joblib.dump(model, MODEL_PATH)
-print("\nModel saved at:", MODEL_PATH)
