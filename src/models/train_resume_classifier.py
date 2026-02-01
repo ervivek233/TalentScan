@@ -4,7 +4,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 import os
 
-MODEL_PATH = "models/resume_classifier.joblib"
+MODEL_DIR = "models"
+MODEL_PATH = os.path.join(MODEL_DIR, "resume_classifier.joblib")
+
+os.makedirs(MODEL_DIR, exist_ok=True)
 
 FEATURES_PATH = "data/processed/resume_features.joblib"
 
