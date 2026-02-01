@@ -1,0 +1,62 @@
+STEP 1 — Dataset Collection & Project Setup (FOUNDATION)
+By the end of Step 1, you must have:
+
+All required datasets downloaded
+Clean project folder structure
+Git repository initialized
+Virtual environment ready
+
+#Folder structure:
+
+resume-analyzer/
+│
+├── data/
+│   ├── raw/
+│   │   ├── resumes.csv
+│   │   ├── job_descriptions.csv
+│   │   └── skills.csv
+│   │
+│   └── processed/
+│
+├── notebooks/
+│   └── data_exploration.ipynb
+│
+├── src/
+│   ├── data_ingestion/
+│   ├── preprocessing/
+│   ├── feature_engineering/
+│   ├── models/
+│   ├── evaluation/
+│   └── api/
+│
+├── tests/
+│
+├── requirements.txt
+├── Dockerfile
+├── .gitignore
+└── README.md
+
+STEP 2 — Data Cleaning & NLP Preprocessing Pipeline
+
+Objective:
+Convert raw resume and job description text into clean, ML-ready text using a reusable preprocessing pipeline.
+
+This pipeline will be used:
+During training
+During PDF resume inference
+Inside FastAPI
+Inside CI/CD
+
+STEP 3 — Feature Engineering (Core ML Signals)
+
+Objective:
+Convert cleaned text into numerical features required for:
+Resume classification
+Resume–JD matching
+Resume scoring
+This step is model-agnostic and will be reused in training, inference, API, and CI/CD.
+STEP 4 — Resume Classification Model (Training + Evaluation)
+
+Objective:
+Train a resume role classifier using TF-IDF features and evaluate it with proper metrics.
+This model will be saved as an artifact and later used by the API and CI/CD pipeline.
