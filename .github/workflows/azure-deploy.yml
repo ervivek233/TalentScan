@@ -1,4 +1,4 @@
-name: Build and Deploy to Azure Web App (Container)
+name: Build and Deploy Container to Azure Web App
 
 on:
   push:
@@ -10,26 +10,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout code
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Log in to Docker Hub
+      # 2️⃣ Login to Docker Hub
+      - name: Docker Hub Login
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      # 3️⃣ Build Docker image
       - name: Build Docker image
         run: |
           docker build -t vivek8191055/talentscan-api:latest .
 
+      # 4️⃣ Push Docker image
       - name: Push Docker image
         run: |
           docker push vivek8191055/talentscan-api:latest
 
-      - name: Deploy to Azure Web App for Containers
-        uses: azure/webapps-deploy@v3
+      # 5️⃣ Azure Login (SERVICE PRINCIPAL – REQUIRED)
+      - name: Azure Login
+        uses: azure/login@v1
         with:
-          app-name: talentscan-api-container
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          images: vivek8191055/talentscan-api:latest
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # 6️⃣ Configure Azure Web App to use Docker image
+      - name: Configure Azure Web App Container
+        run: |
+          az webapp config contai
