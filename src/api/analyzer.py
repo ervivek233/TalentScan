@@ -6,7 +6,11 @@ from src.preprocessing.text_cleaner import clean_text
 from src.api.resume_parser import extract_text_from_pdf, extract_text_from_docx
 
 # Load skills
-skills_df = pd.read_csv("data/raw/skills.csv")
+from pathlib import Path
+
+SKILLS_PATH = Path(__file__).parent.parent / "resources" / "skills.csv"
+skills_df = pd.read_csv(SKILLS_PATH)
+
 SKILLS = set(skills_df["skill"].str.lower())
 
 def skill_match_score(resume_text: str, jd_text: str) -> float:
