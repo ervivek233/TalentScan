@@ -10,34 +10,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout code
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2️⃣ Login to Docker Hub
-      - name: Docker Hub Login
+      - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # 3️⃣ Build Docker image
-      - name: Build Docker image
+      - name: Build and push Docker image
         run: |
-          docker build -t vivek8191055/talentscan-api:latest .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/talentscan-api:latest .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/talentscan-api:latest
 
-      # 4️⃣ Push Docker image
-      - name: Push Docker image
-        run: |
-          docker push vivek8191055/talentscan-api:latest
-
-      # 5️⃣ Azure Login (SERVICE PRINCIPAL – REQUIRED)
       - name: Azure Login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # 6️⃣ Configure Azure Web App to use Docker image
-      - name: Configure Azure Web App Container
-        run: |
-          az webapp config contai
+      - name: Deploy container to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: talentscan-api-container
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/talentscan-api:latest
