@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from sklearn.metrics.pairwise import cosine_similarity
 from src.api.schemas import ResumeText, ResumeJDInput
 from fastapi import UploadFile, File, HTTPException
+from fastapi import UploadFile, File, Form, HTTPException
+from src.api.analyzer import analyze_resume
 from src.api.resume_parser import extract_text_from_pdf, extract_text_from_docx
 from src.api.model_loader import (
     tfidf_vectorizer,
@@ -62,3 +64,21 @@ async def upload_resume(file: UploadFile = File(...)):
         "filename": file.filename,
         "extracted_text_preview": text[:500]
     }
+
+@app.post("/analyze-resume")
+async def analyze_resume_api(
+    resume_file: UploadFile = File(...),
+    jd_text: str = Form(...)
+):
+    try:
+        result = analyze_resume(
+            resume_file=resume_file.file,
+            filename=resume_file.filename.lower(),
+            jd_text=jd_text,
+            tfidf_vectorizer=tfidf_vectorizer,
+            resume_classifier=resume_classifier,
+            sentence_model=sentence_model
+        )
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
